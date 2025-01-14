@@ -79,8 +79,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     await client.sql`INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})`;
   } catch (err) {
-    // console.error("Error creating invoice:", err);
-    // throw new Error("Failed to create invoice.");
+    console.error("Error creating invoice:", err);
     return {
       message: "Database Error: Failed to Create Invoices.",
     };
@@ -112,13 +111,12 @@ export async function updateInvoice(
   }
 
   const { customerId, amount, status } = validatedFields.data;
-
   const amountInCents = amount * 100;
 
   try {
     await client.sql`UPDATE invoices SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status} WHERE id = ${id}`;
   } catch (err) {
-    // console.error("Error updating invoice:", err);
+    console.error("Error updating invoice:", err);
     // throw new Error("Failed to update invoice.");
     return {
       message: "Database Error: Failed to Update Invoice.",
